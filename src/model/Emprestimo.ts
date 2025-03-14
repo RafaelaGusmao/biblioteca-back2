@@ -14,6 +14,7 @@ export class Emprestimo{
     private dataDevolucao: Date; // Data da devolução do livro
     private statusEmprestimo: string; // Status do empréstimo
 
+
      /**
      * Construtor da classe Emprestimos
      * 
@@ -41,6 +42,7 @@ export class Emprestimo{
     public getIdEmprestimo(): number {
         return this.idEmprestimo;
     }
+
 
     /**
      * Atribui o parâmetro ao atributo idEmprestimo
@@ -226,10 +228,11 @@ export class Emprestimo{
     ): Promise<any> {
         try {
             // Cria a consulta (query) para inserir um empréstimo na tabela retornando o ID do empréstimo criado
-            const queryInsertEmprestimo = `
-                INSERT INTO Emprestimo (id_aluno, id_livro, data_emprestimo, data_devolucao, status_emprestimo)
-                VALUES ($1, $2, $3, $4, $5) RETURNING id_emprestimo;
-            `;
+            const queryInsertEmprestimo =  `UPDATE Emprestimo
+            SET id_aluno = $1, id_livro = $2, data_emprestimo = $3, data_devolucao = $4, status_emprestimo = $5
+            WHERE id_emprestimo = $6
+            RETURNING id_emprestimo;`;
+
 
             // estrutura os valores recebidos pela função em uma lista (array)
             const valores = [idAluno, idLivro, dataEmprestimo, dataDevolucao, statusEmprestimo];
